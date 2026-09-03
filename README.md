@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# Moviedux
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Moviedux is a React movie discovery app for browsing a local movie catalogue,
+filtering titles, and building a personal watchlist.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Browse movies with title, genre, rating, and poster artwork.
+- Search movies by title.
+- Filter movies by genre and rating.
+- Add or remove movies from the watchlist.
+- Navigate between the home catalogue and watchlist pages.
+- Display a fallback poster when an image cannot be loaded.
+- Deploy as a single-page app on Netlify.
 
-### `npm start`
+## Tech stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React 18
+- React Router
+- Create React App
+- CSS
+- Static movie data in `public/movies.json`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js 16 or later
+- npm
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Clone the repository, change into the project directory, and install
+dependencies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+git clone <repository-url>
+cd moviedux
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Run locally
 
-### `npm run eject`
+Start the development server:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Available scripts
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Command | Description |
+| --- | --- |
+| `npm start` | Starts the development server. |
+| `npm test` | Runs the test suite in watch mode. |
+| `npm run build` | Creates an optimized production build in `build/`. |
 
-## Learn More
+## Project structure
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```text
+public/
+  images/       Movie poster assets
+  movies.json   Movie catalogue
+src/
+  components/   Header, footer, movie grid, cards, and watchlist
+  App.js        Application routes and layout
+  useApp.js     Movie loading and watchlist state
+netlify.toml    Netlify build and SPA redirect configuration
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Data
 
-### Code Splitting
+Movie data is loaded from `public/movies.json`. Poster images are resolved from
+`public/images/` using each movie's `id`, for example
+`public/images/1.jpg`. Add or update entries in `movies.json` and provide the
+corresponding poster image to extend the catalogue.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The watchlist is held in application state and resets when the page is
+reloaded.
 
-### Analyzing the Bundle Size
+## Deploy to Netlify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+This repository includes `netlify.toml`, which configures Netlify to:
 
-### Making a Progressive Web App
+- Run `npm run build`
+- Publish the `build` directory
+- Redirect all routes to `index.html` for React Router support
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+To deploy, connect the repository in the Netlify dashboard. Netlify will use
+the included configuration automatically.
