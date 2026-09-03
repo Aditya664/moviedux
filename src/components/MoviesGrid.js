@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import "../styles.css";
 import MovieCard from "./MovieCard";
 
@@ -6,11 +6,9 @@ const MoviesGrid = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState("");
 
-  const filteredMovies = useMemo(() => {
-    return movies.filter((movie) =>
-      movie.title.toLowerCase().includes(query.toLowerCase()),
-    );
-  }, [movies, query]);
+  const filteredMovies = movies.filter((movie) =>
+    movie.title.toLowerCase().includes(query.toLowerCase()),
+  );
 
   useEffect(() => {
     const fetchMovies = async () => {
