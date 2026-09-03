@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "../styles.css";
 import MovieCard from "./MovieCard";
 
 const MoviesGrid = () => {
   const [movies, setMovies] = useState([]);
+  const [query, setQuery] = useState("");
+
+  const filteredMovies = useMemo(() => {
+    return movies.filter((movie) =>
+      movie.title.toLowerCase().includes(query.toLowerCase()),
+    );
+  }, [movies, query]);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -18,11 +25,19 @@ const MoviesGrid = () => {
   }, []);
 
   return (
-    <div className="movies-grid">
-      {movies.length > 0
-        ? movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)
-        : null}
-    </div>
+    <>
+      <input
+        type="text"
+        className="search-input"
+        placeholder="Search for a movie..."
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <div className="movies-grid">
+        {filteredMovies.map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
+      </div>
+    </>
   );
 };
 export default MoviesGrid;
