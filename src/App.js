@@ -4,23 +4,10 @@ import Header from "./components/Header";
 import routes from "./routes";
 import "./styles.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import useApp from "./useApp";
 
 const App = () => {
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      await fetch("movies.json")
-        .then((res) => res.json())
-        .then((movies) => {
-          setMovies(movies);
-        });
-    };
-    fetchMovies();
-    return () => {
-      setMovies([]);
-    };
-  }, []);
+  const { movies, watchlist, toggleWatchlist } = useApp();
 
   return (
     <Router>
@@ -31,7 +18,13 @@ const App = () => {
             <Route
               key={index}
               path={path}
-              element={<Component movies={movies} />}
+              element={
+                <Component
+                  movies={movies}
+                  toggleWatchlist={toggleWatchlist}
+                  watchlist={watchlist}
+                />
+              }
             />
           ))}
         </Routes>

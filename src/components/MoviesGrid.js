@@ -1,39 +1,19 @@
 import { useState } from "react";
 import "../styles.css";
 import MovieCard from "./MovieCard";
+import useMoviesGrid from "./useMoviesGrid";
 
 const MoviesGrid = (props) => {
-  const { movies } = props;
-  const [query, setQuery] = useState("");
-  const [genre, setGenre] = useState("All Genres");
-  const [rating, setRating] = useState("All Ratings");
-
-  const matchesGenre = (movie, genre) => {
-    return (
-      genre === "All Genres" ||
-      movie.genre?.toLowerCase() === genre?.toLowerCase()
-    );
-  };
-
-  const matchesSearchQuery = (movie, query) => {
-    return movie.title.toLowerCase().includes(query.toLowerCase());
-  };
-
-  const matchesRating = (movie, rating) => {
-    if (rating === "All Ratings") return true;
-    if (rating === "Good") return movie.rating >= 8;
-    if (rating === "Ok") return movie.rating >= 5 && movie.rating < 8;
-    if (rating === "Low") return movie.rating >= 3 && movie.rating < 5;
-    if (rating === "Bad") return movie.rating < 3;
-    return false;
-  };
-
-  const filteredMovies = movies.filter(
-    (movie) =>
-      matchesSearchQuery(movie, query) &&
-      matchesGenre(movie, genre) &&
-      matchesRating(movie, rating),
-  );
+  const { movies, watchlist, toggleWatchlist } = props;
+  const {
+    query,
+    setQuery,
+    genre,
+    setGenre,
+    rating,
+    setRating,
+    filteredMovies,
+  } = useMoviesGrid(movies);
 
   return (
     <>
@@ -81,7 +61,12 @@ const MoviesGrid = (props) => {
 
       <div className="movies-grid">
         {filteredMovies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            isWatchlisted={watchlist.includes(movie.id)}
+            toggleWatchlist={toggleWatchlist}
+          />
         ))}
       </div>
     </>
