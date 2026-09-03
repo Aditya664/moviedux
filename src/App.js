@@ -1,17 +1,43 @@
+import { useEffect, useState } from "react";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import MoviesGrid from "./components/MoviesGrid";
+import routes from "./routes";
 import "./styles.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const App = () => {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      await fetch("movies.json")
+        .then((res) => res.json())
+        .then((movies) => {
+          setMovies(movies);
+        });
+    };
+    fetchMovies();
+    return () => {
+      setMovies([]);
+    };
+  }, []);
+
   return (
-    <div className="App">
-      <div className="container">
+    <Router>
+      <div className="app">
         <Header />
-        <MoviesGrid />
+        <Routes>
+          {routes.map(({ path, element: Component }, index) => (
+            <Route
+              key={index}
+              path={path}
+              element={<Component movies={movies} />}
+            />
+          ))}
+        </Routes>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </Router>
   );
 };
 

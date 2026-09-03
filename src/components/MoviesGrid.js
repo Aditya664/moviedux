@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../styles.css";
 import MovieCard from "./MovieCard";
 
-const MoviesGrid = () => {
-  const [movies, setMovies] = useState([]);
+const MoviesGrid = (props) => {
+  const { movies } = props;
   const [query, setQuery] = useState("");
-
   const [genre, setGenre] = useState("All Genres");
   const [rating, setRating] = useState("All Ratings");
 
@@ -35,18 +34,6 @@ const MoviesGrid = () => {
       matchesGenre(movie, genre) &&
       matchesRating(movie, rating),
   );
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      await fetch("movies.json")
-        .then((res) => res.json())
-        .then((movies) => {
-          setMovies(movies);
-        });
-    };
-    fetchMovies();
-    return () => {};
-  }, []);
 
   return (
     <>
